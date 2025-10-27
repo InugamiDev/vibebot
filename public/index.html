@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeBot - AI Dev Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🤖 VibeBot</h1>
+      <p class="subtitle">Local AI Dev Agent + UI</p>
+    </header>
+
+    <main>
+      <section class="create-task">
+        <h2>Create New Task</h2>
+        <form id="task-form">
+          <div class="form-group">
+            <label for="repo">Repository *</label>
+            <input type="text" id="repo" name="repo" placeholder="owner/repo or https://github.com/owner/repo" required>
+          </div>
+
+          <div class="form-group">
+            <label for="idea">Task Description *</label>
+            <textarea id="idea" name="idea" placeholder="Describe what you want the AI to implement..." required></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="base">Base Branch</label>
+              <input type="text" id="base" name="base" placeholder="main">
+            </div>
+
+            <div class="form-group">
+              <label for="model">Model</label>
+              <select id="model" name="model">
+                <option value="">Default</option>
+                <option value="gpt-4-turbo-preview">GPT-4 Turbo</option>
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="claude-3-opus">Claude 3 Opus</option>
+                <option value="claude-3-sonnet">Claude 3 Sonnet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="preset">Preset</label>
+              <select id="preset" name="preset">
+                <option value="">None</option>
+                <option value="fast">Fast</option>
+                <option value="balanced">Balanced</option>
+                <option value="thorough">Thorough</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="maxCost">Max Cost ($)</label>
+              <input type="number" id="maxCost" name="maxCost" min="0.1" max="100" step="0.1" placeholder="10.00">
+            </div>
+
+            <div class="form-group">
+              <label for="maxTime">Max Time (seconds)</label>
+              <input type="number" id="maxTime" name="maxTime" min="60" max="7200" step="60" placeholder="3600">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Start Task</button>
+        </form>
+      </section>
+
+      <section class="tasks-list">
+        <h2>Active Tasks</h2>
+        <div id="tasks-container">
+          <p class="empty-state">No tasks yet. Create one above!</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
