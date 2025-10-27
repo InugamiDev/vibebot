@@ -121,10 +121,17 @@ Steps: 5/5 completed
 ### What VibeBot Does
 1. Analyzes all API routes
 2. Adds JSDoc comments to endpoints
-3. Generates OpenAPI spec
-4. Creates documentation UI setup
+3. Generates OpenAPI spec file (e.g., `swagger.yml` or `openapi.json`)
+4. Creates documentation UI setup (adds Swagger UI dependencies)
 5. Updates README with API docs link
 6. Creates PR
+
+**Example files modified:**
+- `routes/*.js` - JSDoc comments added
+- `openapi.yml` - New OpenAPI specification
+- `package.json` - Swagger UI dependencies
+- `server.js` - Swagger UI route setup
+- `README.md` - API documentation section
 
 ## Example 6: Performance Optimization
 
@@ -241,10 +248,20 @@ Always review the AI-generated PR:
 
 ### 5. Provide Context
 Include relevant context in the task description:
-- Technology stack
-- Coding conventions
-- Related files or modules
-- Expected behavior
+- Technology stack: "using Express.js and Passport.js"
+- Coding conventions: "following Airbnb style guide"
+- Related files or modules: "update the UserService and AuthController"
+- Expected behavior: "should return 401 for invalid tokens"
+
+**Example with context:**
+```
+/vibe 
+  repo: myorg/api
+  idea: Add JWT authentication using Express.js and jsonwebtoken library. 
+        Create middleware in /middleware/auth.js following our existing pattern. 
+        Add login/register endpoints to /routes/auth.js. 
+        Should return 401 for invalid tokens and 403 for missing tokens.
+```
 
 ## Troubleshooting Common Issues
 
