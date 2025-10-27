@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import rateLimit from 'express-rate-limit';
 import { Server as WebSocketServer } from 'ws';
 import { config } from './config.js';
 import { AgentOrchestrator } from './agent.js';
@@ -29,13 +30,34 @@ export class WebUI {
   private setupMiddleware(): void {
     this.app.use(express.json());
     this.app.use(express.static(path.join(__dirname, '../public')));
+    
+    // Rate limiting for general API endpoints
+    const apiLimiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // Limit each IP to 100 requests per windowMs
+      message: 'Too many requests from this IP, please try again later.',
+      standardHeaders: true,
+      legacyHeaders: false,
+    });
+    
+    // Apply rate limiting to API routes
+    this.app.use('/api/', apiLimiter);
   }
 
   private setupRoutes(): void {
+    // Rate limiting for task creation (more restrictive)
+    const taskCreationLimiter = rateLimit({
+      windowMs: 60 * 60 * 1000, // 1 hour
+      max: 10, // Limit task creation to 10 per hour per IP
+      message: 'Too many tasks created from this IP, please try again later.',
+      standardHeaders: true,
+      legacyHeaders: false,
+    });
+    
     // API Routes
     this.app.get('/api/tasks', this.getTasks.bind(this));
     this.app.get('/api/tasks/:id', this.getTask.bind(this));
-    this.app.post('/api/tasks', this.createTask.bind(this));
+    this.app.post('/api/tasks', taskCreationLimiter, this.createTask.bind(this));
     this.app.get('/api/config', this.getConfig.bind(this));
     
     // Serve index.html for all other routes (SPA support)
